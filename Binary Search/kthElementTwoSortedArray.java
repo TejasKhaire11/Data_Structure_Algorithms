@@ -1,0 +1,55 @@
+class kthElementTwoSortedArray{
+
+static double findKthElementOfSortedArray(int nums1[],int nums2[],int k){
+   int n1=nums1.length;
+    int n2=nums2.length;
+    if(nums1.length>nums2.length){
+
+        return findKthElementOfSortedArray(nums2, nums1,k);
+    }
+
+ 
+    int low=Math.max(k-n2,0),high=Math.min(k,n1);
+    int left=k;
+    int n=n1+n2;
+    while (low<=high) { 
+        
+        int cut1=(low+high)/2;
+
+        int cut2=left-cut1;
+        int left1 =(cut1==0)? Integer.MIN_VALUE: nums1[cut1-1];
+        int left2=(cut2==0) ? Integer.MIN_VALUE: nums2[cut2-1];
+
+        int right1=(cut1==n1) ? Integer.MAX_VALUE:nums1[cut1];
+        int right2=(cut2==n2) ? Integer.MAX_VALUE:nums2[cut2];
+
+        if(left1<=right2 && left2<=right1){
+
+            if((n1+n2%2)==0){
+
+                return (Math.max(left1, left2)+Math.min(right1, right2));
+            }else{
+                return Math.max(left1, left2);
+            }
+        }
+        else if(left1>right1){
+            high=cut1-1;
+        }else{
+            low=cut1+1;
+        }
+
+    }
+    return 0;
+} 
+    public static void main(String[] args) {
+        
+
+        int arr1[]={1,3,5,7};
+        int arr2[]={2,9,10};
+        int k=4;
+        double ans=findKthElementOfSortedArray(arr1,arr2,k);
+        System.out.println(ans);
+
+    }
+}
+
